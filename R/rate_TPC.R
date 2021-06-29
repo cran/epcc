@@ -1,0 +1,66 @@
+#'Intrinsic growth rate dependent on temperature
+#'
+#' @description This function allows to obtain the intrinsic growth rate following a
+#'              thermal performance curve (TPC). A cubic polynomial is used considering
+#'              Saldaña et al (2019).
+#'
+#'
+#'@param T Temperature trend at which the population dynamics are studied.
+#'@param ro Population growth rate at optimal temperature.
+#'@param temp_cmin Minimum critical temperature.
+#'@param temp_cmax Maximum critical temperature.
+#'@param temp_op Optimum performance temperature.
+#'
+#'
+#'@details The intrinsic growth rate is represented by a thermal performance curve (TPC).
+#'         These curves associate the performance of ectothermic organisms as a function
+#'         of body temperature. These curves have a characteristic unimodal asymmetric
+#'         shape skewed to the left. Its main descriptors are minimum and maximum critical
+#'         temperatures, which indicate the thermal tolerance range, and the optimum
+#'         temperature, which indicates the temperature at which performance is at its
+#'         maximum value (Anguilleta, 2006; Huey et al., 2012).
+#'         The function implements a cubic expression that follows the characteristic shape
+#'         of TPCs as described in Saldaña et al. (2019).
+#'
+#'@return No return value, called for side effects.
+#'
+#'@references Angilletta, M. J. (2006). Estimating and comparing thermal performance curves.
+#'            Journal of Thermal Biology, 31(7), 541-545. doi:10.1016/j.jtherbio.2006.06.002
+#'
+#'@references Huey, R. B., Kearney, M. R., Krockenberger, A., Holtum, J. A. M., Jess, M., & Williams,
+#'            S. E. (2012). Predicting organismal vulnerability to climate warming: roles of behaviour,
+#'            physiology and adaptation. Philosophical Transactions of the Royal Society B: Biological
+#'            Sciences, 367(1596), 1665-1679. doi:10.1098/rstb.2012.0005
+#'
+#'@references Saldaña-Núñez, V.N., Córdova-Lepe, F.D. & Moreno-Gómez, F.N. (2019). Population dynamics in the face of
+#'            climate change: Analysis of a cubic thermal performance curve in ectotherms. J. Phys.: Conf.
+#'            Ser. 1329 012007.   doi:10.1088/1742-6596/1329/1/012007
+#'
+#'@export
+#'@examples
+#'
+#'times<- seq(2005, 2100, 1/12)
+#'temp_cmin <- 18
+#'temp_cmax <- 26
+#'
+#'# Temperature at which performance is at its maximum value.
+#'temp_op <- (temp_cmax+temp_cmin)/3+sqrt(((temp_cmax+temp_cmin)/3)^2-
+#'            (temp_cmax*temp_cmin)/3)
+#'
+#'ro <- 0.8
+#'
+#'# Temperature that occurs in the minimum time of the simulation.
+#'temp_i <- 20
+#'
+#'temp <- get_RCP8.5(times)+temp_i
+#'
+#'rate <- rate_TPC(temp,ro,temp_cmin,temp_cmax,temp_op)
+#'
+#'plot(times,rate, type="l")
+#'
+
+
+rate_TPC<- function (T,ro,temp_cmin,temp_cmax,temp_op) {
+  r <- ro*((T-temp_cmin)*(temp_cmax-T)*T)/((temp_op-temp_cmin)*(temp_cmax-temp_op)*temp_op)
+
+}
